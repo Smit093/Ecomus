@@ -444,5 +444,47 @@ router.post('/register', async (req, res) => {
     }
 });
 
+// GET route to fetch all users
+router.get('/users', async (req, res) => {
+    try {
+        const users = await User.find(); // Fetch all entries from User collection
+        res.status(200).json(users); // Send the retrieved data as response
+    } catch (error) {
+        console.error("Error while fetching user data from DB.", error);
+        res.status(500).json({ message: 'Error while fetching user data', error });
+    }
+});
+
+// POST route for logging in a user
+router.post('/login', async (req, res) => {
+    const { email, password } = req.body;
+
+    // Simple validation
+    if (!email || !password) {
+        return res.status(400).json({ message: 'Email and password are required.' });
+    }
+
+    try {
+        // Find the user by email
+        const user = await User.findOne({ email });
+        if (!user) {
+            return res.status(400).json({ message: 'Invalid email or password.' });
+        }
+
+        // Decrypt the stored password
+        const decryptedPassword = cryptr.decrypt(user.password);
+
+        // Compare decrypted password with provided password
+        if (decryptedPassword !== password) {
+            return res.status(400).json({ message: 'Invalid email or password.' });
+        }
+
+        // If login is successful, respond with success message (and potentially a token)
+        res.status(200).json({ message: 'Login successful!' });
+    } catch (error) {
+        console.error('Error logging in:', error);
+        res.status(500).json({ message: 'Internal server error.' });
+    }
+});
 
 module.exports = router;
