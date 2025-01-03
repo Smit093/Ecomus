@@ -23,7 +23,6 @@ function BestSeller() {
             setBestSellerData(response.data);
         } catch (error) {
             console.error('Error fetching BestSeller data:', error);
-            showNotification('Error fetching BestSeller data.', 'danger');
         }
     };
 
@@ -400,7 +399,6 @@ function BestSeller() {
                         {bestSellerData.map((product, index) => (
                             <Col xs={6} sm={6} md={4} lg={3} key={index}>
                                 <div className='product'>
-                                    {console.log(product)}
                                     <img
                                         src={product.images[product.colors[0]]} // Display the first image for the product
                                         className="img-fluid product-image"
@@ -443,7 +441,6 @@ function BestSeller() {
                                                 marginRight: '5px'
                                             }}
                                         >
-                                            {console.log(color)}
                                             <input
                                                 type="radio"
                                                 id={`color-${index}-${color}`}

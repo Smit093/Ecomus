@@ -420,7 +420,6 @@ router.post('/register', async (req, res) => {
         if (existingUser) {
             return res.status(400).json({ message: 'Email already Exists.' });
         }
-//   fhghgh
         // Encrypt the password before saving
         const encryptedPassword = cryptr.encrypt(password);
 
