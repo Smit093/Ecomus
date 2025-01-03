@@ -476,10 +476,12 @@ router.post('/login', async (req, res) => {
 
         // Compare decrypted password with provided password
         if (decryptedPassword !== password) {
+            console.log("Login failed for ",email)
             return res.status(400).json({ message: 'Invalid email or password.' });
         }
 
         // If login is successful, respond with success message (and potentially a token)
+        console.log("Login successfull for ",email)
         res.status(200).json({ message: 'Login successful!' });
     } catch (error) {
         console.error('Error logging in:', error);
